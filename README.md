@@ -4,9 +4,9 @@
 To process a single element, paint it with three colors: blue, red, green. The elements are painted by robots. Each robot can only paint one element at the time. Painting each element takes a certain amount of time.
 
 ## Robot functions:
- + Red robot paints with red paint.
- + Green robot paints with green paint.
- + Blue robot paints with blue paint.
+ 1. Red robot paints items with red paint.
+ 2. Green robot paints items with green paint.
+ 3. Blue robot paints items with blue paint.
 
 ## The process of making a finished element requires:
  1. Item is initialy in a raw parts warehouse.
@@ -16,9 +16,9 @@ To process a single element, paint it with three colors: blue, red, green. The e
  5. The elements painted with all the required colors are transferred to the finished items warehouse.
 
 ## From the user's point of view, the following operations are allowed:
- + Set the number of elements to be processed.
- + Set the number of robots painting in a given color.
- + Set the time required to finish the painting of a single element in the desired color.
+ 1. Set the number of elements to be processed.
+ 2. Set the number of robots painting in a given color.
+ 3. Input the time required to finish the painting of a single element in the desired color.
 
 ## Implementation details
 The implementation should be parallelized and optimized so the elements are processed as quickly as possible. It should be possible to interrupt the process at any time. After canceling, the only option is to restart the process. If not aborted, the process ends when all items have been processed.
