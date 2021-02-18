@@ -9,9 +9,9 @@ To process a single element, paint it with three colors: blue, red, green. The e
  3. Blue robot paints items with blue paint.
 
 ## The process of making a finished element requires:
- 1. Item is initialy located in a raw parts warehouse.
+ 1. Item is initially located in a raw parts warehouse.
  2. The item is transferred to a inactive robot. The robot paints the element in the appropriate color.
- 3. The element can not be painted more than once with the same color.
+ 3. The element cannot be painted more than once with the same color.
  4. If the element has not yet been painted with all three colors, it is returned to the raw parts warehouse.
  5. The elements painted with all the required colors are transferred to the finished items warehouse.
 
@@ -30,7 +30,7 @@ The implementation should be parallelized and optimized so the elements are proc
     2.2 The number and percentage of items completed.  
     2.3 The number and percentage of items that are yet to be processed.  
     2.4 The number and percentage of items painted by each of the three colors.  
-3. The table which shows all the elements beeing processed and their current status in real time. The table consists of the five columns:  
+3. The table which shows all the elements being processed and their current status in real time. The table consists of the five columns:  
     3.1 An identifier given to the item when it was created.  
     3.2 Red, if an item has already been painted red, the cell contains the corresponding picture or value. If it hasn't been painted, the cell is empty. If it is in the process of being painted there is a special indicator for this also.  
     3.3 Blue, the same as for the red column, the column corresponds to the blue color.  
@@ -44,7 +44,7 @@ The implementation should be parallelized and optimized so the elements are proc
 4. Robots section with information on the usability of robots:  
     4.1 Total number of robots of a given type.  
     4.2 How many robots of a particular type are currently painting the elements.  
-    4.3 How many items have been already painted.  
+    4.3 How many elements have already been painted.
 5. Action buttons to start and stop the process.
 
 ## Sample application main screen
