@@ -47,4 +47,5 @@ The implementation should be parallelized and optimized so the elements are proc
     4.3 How many items have been already painted.  
 5. Action buttons to start and stop the process.
 
+## Sample application main screen
 ![Application main screen](https://github.com/maciejregulski/Robots/blob/main/Docs/mainscreen.png)
