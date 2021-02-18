@@ -1,6 +1,6 @@
 # Robots
 
-## Application in C # that simulates the process of producing elements and reports the progress to the UI.
+## Application in C# that simulates the process of producing elements and reports the progress to the UI.
 To process a single element, paint it with three colors: blue, red, green. The elements are painted by robots. Each robot can only paint one element at the time. Painting each element takes a certain amount of time.
 
 ## Robot functions:
