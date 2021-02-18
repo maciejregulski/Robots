@@ -1,7 +1,13 @@
 ﻿namespace Robots.Model
 {
-    interface IRobot
+    public interface IRobot
     {
-        public void Paint();
+        IElementState State { get; set; }
+
+        int Interval { get; set; }
+
+        bool IsFinished { get; }
+
+        void ChangeState();
     }
 }

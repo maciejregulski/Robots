@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0911FF14-BDA5-4928-8323-270E06C046B4}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Robots</RootNamespace>
-    <AssemblyName>Robots</AssemblyName>
+    <ProjectGuid>{D793C17E-310B-4417-9517-C1797A6E13AA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RobotsConsole</RootNamespace>
+    <AssemblyName>RobotsConsole</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,16 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Element.cs" />
-    <Compile Include="Model\ElementCompleted.cs" />
-    <Compile Include="Model\ElementState.cs" />
-    <Compile Include="Model\IElementState.cs" />
-    <Compile Include="Model\IRobot.cs" />
-    <Compile Include="Model\ElementInProgress.cs" />
-    <Compile Include="Model\ElementRaw.cs" />
-    <Compile Include="Model\RobotManager.cs" />
-    <Compile Include="Model\Robot.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Robots\Robots.csproj">
+      <Project>{0911FF14-BDA5-4928-8323-270E06C046B4}</Project>
+      <Name>Robots</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

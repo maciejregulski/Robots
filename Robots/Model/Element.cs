@@ -5,10 +5,19 @@
     /// </summary>
     public class Element
     {
-        public ElementState Red { get; set; }
+        public int Id { get; set; }
 
-        public ElementState Green { get; set; }
+        public IElementState Red { get; set; }
 
-        public ElementState Blue { get; set; }
+        public IElementState Green { get; set; }
+
+        public IElementState Blue { get; set; }
+
+        public Element()
+        {
+            this.Red = new ElementRaw();
+            this.Green = new ElementRaw();
+            this.Blue = new ElementRaw();
+        }
     }
 }
