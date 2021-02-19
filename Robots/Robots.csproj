@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\AtomicBoolean.cs" />
     <Compile Include="Model\Element.cs" />
     <Compile Include="Model\ElementStateCompleted.cs" />
     <Compile Include="Model\ElementStateBase.cs" />

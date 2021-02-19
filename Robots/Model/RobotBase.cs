@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Robots.Extensions;
 
 namespace Robots.Model
 {
@@ -8,6 +9,8 @@ namespace Robots.Model
     /// </summary>
     public abstract class RobotBase
     {
+        private readonly AtomicBoolean busy = new AtomicBoolean();
+
         public int Id { get; private set; }
 
         /// <summary>
@@ -20,7 +23,14 @@ namespace Robots.Model
         /// </summary>
         public bool Abort { get; set; }
 
-        public bool Busy { get; private set; }
+        /// <summary>
+        /// This tells if the robot has the capacity to process the job. Thread safe boolean.
+        /// </summary>
+        public bool Busy
+        {
+            get => this.busy.Value;
+            private set => this.busy.Value = value;
+        }
 
         protected RobotBase(int id, int interval)
         {
