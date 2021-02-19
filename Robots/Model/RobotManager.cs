@@ -14,43 +14,40 @@ namespace Robots.Model
 
         public RobotManager(int reds, int greens, int blues)
         {
-            for (int i = 0; i < reds; i++)
+            for (int i = 1; i <= reds; i++)
             {
-                this.redRobots.Add(new Robot(i + 1, 550));
+                this.redRobots.Add(new RobotRed(i, 650));
             }
-            for (int i = 0; i < greens; i++)
+            for (int i = 1; i <= greens; i++)
             {
-                this.greenRobots.Add(new Robot(i + 1, 900));
+                this.greenRobots.Add(new RobotGreen(i, 920));
             }
-            for (int i = 0; i < blues; i++)
+            for (int i = 1; i <= blues; i++)
             {
-                this.blueRobots.Add(new Robot(i + 1, 800));
+                this.blueRobots.Add(new RobotBlue(i, 1250));
             }
         }
 
         public void Start()
         {
-            var element = new Element();
+            var element = new Element(1);
 
             Console.ForegroundColor = ConsoleColor.Red;
             foreach (var robot in redRobots)
             {
-                robot.State = element.Red;
-                robot.ChangeState();
+                robot.Paint(element);
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
             foreach (var robot in greenRobots)
             {
-                robot.State = element.Green;
-                robot.ChangeState();
+                robot.Paint(element);
             }
 
             Console.ForegroundColor = ConsoleColor.Blue;
             foreach (var robot in blueRobots)
             {
-                robot.State = element.Blue;
-                robot.ChangeState();
+                robot.Paint(element);
             }
 
         }
