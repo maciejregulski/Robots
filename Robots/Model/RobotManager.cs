@@ -33,11 +33,11 @@ namespace Robots.Model
             var element = new Element(1);
             element.Idle += (s, e) =>
             {
-                Console.WriteLine($"Idle, returning #{(s as Element)?.Id} Element to the pool.");
+                Console.WriteLine($"Idle, returning Element(#{(s as Element)?.Id}) to the pool.");
             };
             element.Completed += (s, e) =>
             {
-                Console.WriteLine($"Completed, transfering #{(s as Element)?.Id} Element to the warehouse.");
+                Console.WriteLine($"Completed, transfering Element(#{(s as Element)?.Id}) to the warehouse.");
             };
 
             Console.ForegroundColor = ConsoleColor.Red;

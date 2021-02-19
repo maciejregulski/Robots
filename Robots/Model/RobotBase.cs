@@ -10,7 +10,15 @@ namespace Robots.Model
     {
         public int Id { get; private set; }
 
+        /// <summary>
+        /// Different interval for each color.
+        /// </summary>
         public int Interval { get; set; }
+
+        /// <summary>
+        /// ToDo: should be atomic boolean.
+        /// </summary>
+        public bool Abort { get; set; }
 
         protected RobotBase(int id, int interval)
         {
@@ -18,10 +26,13 @@ namespace Robots.Model
             this.Interval = interval;
         }
 
+        /// <summary>
+        /// Implemented as non-blocking busy wait object (safe spin lock).
+        /// </summary>
         protected void SimulateJob()
         {
-            // To be implemented as non-blocking; ToDo: different intervals for each color
-            Thread.Sleep(this.Interval);
+            //Thread.Sleep(this.Interval);
+            SpinWait.SpinUntil(() => this.Abort, this.Interval);
         }
     }
 }

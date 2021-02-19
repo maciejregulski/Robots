@@ -16,7 +16,7 @@ namespace Robots.Model
         {
             if (!element.IsRed)
             {
-                Console.WriteLine($"#{this.Id} Robot Red");
+                Console.WriteLine($"Robot(#{this.Id}) Red");
                 element.PaintRed();
                 this.SimulateJob();
             }
