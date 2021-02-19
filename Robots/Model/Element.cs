@@ -17,6 +17,8 @@ namespace Robots.Model
     /// </summary>
     public class Element : IElement
     {
+        private readonly object syncRoot = new object();
+
         public int Id { get; private set; }
 
         protected IElementState State { get; set; }
@@ -84,7 +86,10 @@ namespace Robots.Model
 
         public void ChangeState(IElementState state)
         {
-            this.State = state;
+            lock (this.syncRoot)
+            {
+                this.State = state;
+            }
 
             if (state is ElementStateIdle)
             {

@@ -13,21 +13,21 @@ namespace Robots.Controller
     {
         private readonly BlockingCollection<IElement> elementQueue = new BlockingCollection<IElement>(new ConcurrentQueue<IElement>());
 
-        private List<IRobot> robots = new List<IRobot>();
+        private ConcurrentQueue<IRobot> robots = new ConcurrentQueue<IRobot>();
 
         public RobotManager(int reds, int greens, int blues, int elements)
         {
             for (int i = 1; i <= reds; i++)
             {
-                this.robots.Add(new RobotRed(i, 650));
+                this.robots.Enqueue(new RobotRed(i, 650));
             }
             for (int i = 1; i <= greens; i++)
             {
-                this.robots.Add(new RobotGreen(i, 920));
+                this.robots.Enqueue(new RobotGreen(i, 920));
             }
             for (int i = 1; i <= blues; i++)
             {
-                this.robots.Add(new RobotBlue(i, 1250));
+                this.robots.Enqueue(new RobotBlue(i, 1250));
             }
 
             Task.Run(() => this.FillElements(elements));
@@ -45,8 +45,11 @@ namespace Robots.Controller
             }
         }
 
+        ConcurrentQueue<IElement> warehouse = new ConcurrentQueue<IElement>();
+
         private void Element_Completed(object sender, EventArgs e)
         {
+            this.warehouse.Enqueue(sender as IElement);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"Completed, transfering Element(#{(sender as Element)?.Id}) to the warehouse.");
         }
