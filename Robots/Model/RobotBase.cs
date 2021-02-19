@@ -20,6 +20,8 @@ namespace Robots.Model
         /// </summary>
         public bool Abort { get; set; }
 
+        public bool Busy { get; private set; }
+
         protected RobotBase(int id, int interval)
         {
             this.Id = id;
@@ -31,8 +33,10 @@ namespace Robots.Model
         /// </summary>
         protected void SimulateJob()
         {
+            this.Busy = true;
             //Thread.Sleep(this.Interval);
             SpinWait.SpinUntil(() => this.Abort, this.Interval);
+            this.Busy = false;
         }
     }
 }
