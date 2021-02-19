@@ -31,6 +31,14 @@ namespace Robots.Model
         public void Start()
         {
             var element = new Element(1);
+            element.Idle += (s, e) =>
+            {
+                Console.WriteLine($"Idle, returning #{(s as Element)?.Id} Element to the pool.");
+            };
+            element.Completed += (s, e) =>
+            {
+                Console.WriteLine($"Completed, transfering #{(s as Element)?.Id} Element to the warehouse.");
+            };
 
             Console.ForegroundColor = ConsoleColor.Red;
             foreach (var robot in redRobots)

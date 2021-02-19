@@ -29,13 +29,17 @@ namespace Robots.Model
             this.State = new ElementStateIdle(this);
         }
 
+        public event EventHandler<EventArgs> Idle;
+
+        public event EventHandler<EventArgs> Completed;
+
         public bool IsRed => (this.Color & ElementColor.Red) == ElementColor.Red;
 
         public bool IsGreen => (this.Color & ElementColor.Green) == ElementColor.Green;
 
         public bool IsBlue => (this.Color & ElementColor.Blue) == ElementColor.Blue;
 
-        public bool IsDone => (this.Color & ElementColor.All) == ElementColor.All;
+        public bool IsComplete => (this.Color & ElementColor.All) == ElementColor.All;
 
         public void ReturnToPool()
         {
@@ -84,7 +88,7 @@ namespace Robots.Model
 
             if (state is ElementStateIdle)
             {
-                // Fire event
+                this.OnIdle();
             }
             else if (state is ElementStateRed)
             {
@@ -100,15 +104,25 @@ namespace Robots.Model
             }
             else if (state is ElementStateCompleted)
             {
-                // Fire event
+                this.OnCompleted();
             }
-
-            ReportState();
         }
 
         public void ReportState()
         {
             this.State.ReportState();
+        }
+
+        protected virtual void OnIdle()
+        {
+            var handler = this.Idle;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnCompleted()
+        {
+            var handler = this.Completed;
+            handler?.Invoke(this, EventArgs.Empty);
         }
     }
 }
