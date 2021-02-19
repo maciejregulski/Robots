@@ -1,5 +1,5 @@
 ﻿using System;
-using Robots.Model;
+using Robots.Controller;
 
 namespace RobotsConsole
 {
@@ -7,7 +7,7 @@ namespace RobotsConsole
     {
         static void Main(string[] args)
         {
-            RobotManager system = new RobotManager(3, 4, 5);
+            RobotManager system = new RobotManager(3, 4, 5, 1500);
             system.Start();
 
             Console.ReadLine();

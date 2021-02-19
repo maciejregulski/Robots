@@ -51,7 +51,7 @@
     <Compile Include="Model\IRobot.cs" />
     <Compile Include="Model\ElementStateRed.cs" />
     <Compile Include="Model\ElementStateIdle.cs" />
-    <Compile Include="Model\RobotManager.cs" />
+    <Compile Include="Controller\RobotManager.cs" />
     <Compile Include="Model\RobotBase.cs" />
     <Compile Include="Model\RobotGreen.cs" />
     <Compile Include="Model\RobotBlue.cs" />
