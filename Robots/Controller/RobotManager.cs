@@ -149,6 +149,8 @@ namespace Robots.Controller
                     robot.Paint(element);
                 }
 
+                element.FinishUp();
+
                 if (element.IsComplete)
                 {
                     break;

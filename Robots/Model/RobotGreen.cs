@@ -23,7 +23,6 @@ namespace Robots.Model
             Console.WriteLine($"Robot({this.Id}) painting Element({element.Id}) Green ({this.Interval}ms)");
             element.PaintGreen();
             this.SimulateJob();
-            element.FinishUp();
         }
     }
 }
