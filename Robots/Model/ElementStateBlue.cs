@@ -25,11 +25,19 @@ namespace Robots.Model
 
         public void PaintBlue()
         {
+            this.element.ChangeState(new ElementStateIdle(this.element));
         }
 
         public void FinishUp()
         {
-            this.element.ChangeState(new ElementStateCompleted(this.element));
+            if (this.element.IsPainted)
+            {
+                this.element.ChangeState(new ElementStateCompleted(this.element));
+            }
+            else
+            {
+                this.element.ChangeState(new ElementStateIdle(this.element));
+            }
         }
 
         public void ReportState()

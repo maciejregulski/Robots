@@ -10,6 +10,7 @@ namespace Robots.Model
 
         public void ReturnToPool()
         {
+            // Stay Idle
         }
 
         public void PaintRed()
@@ -29,6 +30,7 @@ namespace Robots.Model
 
         public void FinishUp()
         {
+            // Stay Idle
         }
 
         public void ReportState()

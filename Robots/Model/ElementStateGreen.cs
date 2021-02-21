@@ -20,6 +20,7 @@ namespace Robots.Model
 
         public void PaintGreen()
         {
+            this.element.ChangeState(new ElementStateIdle(this.element));
         }
 
         public void PaintBlue()
@@ -29,7 +30,14 @@ namespace Robots.Model
 
         public void FinishUp()
         {
-            this.element.ChangeState(new ElementStateCompleted(this.element));
+            if (this.element.IsPainted)
+            {
+                this.element.ChangeState(new ElementStateCompleted(this.element));
+            }
+            else
+            {
+                this.element.ChangeState(new ElementStateIdle(this.element));
+            }
         }
 
         public void ReportState()
