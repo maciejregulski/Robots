@@ -45,12 +45,14 @@ namespace Robots.Model
         /// <summary>
         /// Implemented as non-blocking busy wait object (safe spin lock).
         /// </summary>
-        protected void SimulateJob()
+        /// <returns>True if job is executed; false if aborted.</returns>
+        protected bool SimulateJob()
         {
             this.Busy = true;
             //Thread.Sleep(this.Interval);
-            SpinWait.SpinUntil(() => this.Abort, this.Interval);
+            bool abort = SpinWait.SpinUntil(() => this.Abort, this.Interval);
             this.Busy = false;
+            return !abort;
         }
     }
 }

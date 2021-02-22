@@ -21,8 +21,10 @@ namespace Robots.Model
 
             Logger.TextColor = ConsoleColor.Green;
             Logger.Info($"Robot({this.Id}) painting Element({element.Id}) Green ({this.Interval}ms)");
-            element.PaintGreen();
-            this.SimulateJob();
+            if (this.SimulateJob())
+            {
+                element.PaintGreen();
+            }
         }
     }
 }

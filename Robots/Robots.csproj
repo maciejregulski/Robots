@@ -54,7 +54,7 @@
     <Compile Include="Model\IElement.cs" />
     <Compile Include="Model\IElementState.cs" />
     <Compile Include="Model\IRobot.cs" />
-    <Compile Include="Model\ElementStteRed.cs" />
+    <Compile Include="Model\ElementStateRed.cs" />
     <Compile Include="Model\ElementStateIdle.cs" />
     <Compile Include="Controller\RobotManager.cs" />
     <Compile Include="Model\PaintException.cs" />
