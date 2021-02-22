@@ -14,14 +14,15 @@ namespace Robots.Model
         /// <inheritdoc />
         public void Paint(IElement element)
         {
-            if (!element.IsGreen)
+            if (element.IsGreen)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Robot(#{this.Id}) Green");
-                element.PaintGreen();
-                this.SimulateJob();
+                return;
             }
-            element.FinishUp();
+
+            Logger.TextColor = ConsoleColor.Green;
+            Logger.Info($"Robot({this.Id}) painting Element({element.Id}) Green ({this.Interval}ms)");
+            element.PaintGreen();
+            this.SimulateJob();
         }
     }
 }

@@ -7,11 +7,15 @@ namespace RobotsConsole
     {
         static void Main(string[] args)
         {
-            RobotManager system = new RobotManager(3, 4, 5, 1500);
-            system.Start();
+            var robotService = new RobotManager(5, 5, 5, 150);
+            robotService.Start();
+            robotService.IntervalRed = 21;
+            robotService.IntervalGreen = 22;
+            robotService.IntervalBlue = 23;
 
             Console.ReadLine();
-
+            robotService.ReportStatus();
+            Console.ReadLine();
         }
     }
 }

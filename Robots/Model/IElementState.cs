@@ -11,7 +11,5 @@
         void PaintBlue();
 
         void FinishUp();
-
-        void ReportState();
     }
 }

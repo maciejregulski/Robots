@@ -4,15 +4,15 @@ namespace Robots.Model
 {
     public interface IElement
     {
-        event EventHandler<EventArgs> Idle;
-
-        event EventHandler<EventArgs> Completed;
+        int Id { get; }
 
         bool IsRed { get; }
 
         bool IsGreen { get; }
 
         bool IsBlue { get; }
+
+        bool IsPainted { get; }
 
         bool IsComplete { get; }
 
@@ -27,7 +27,5 @@ namespace Robots.Model
         void FinishUp();
 
         void ChangeState(IElementState state);
-
-        void ReportState();
     }
 }
