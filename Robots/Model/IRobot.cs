@@ -10,6 +10,8 @@
 
         int Interval { get; set; }
 
+        int Completed { get; }
+
         void Paint(IElement element);
     }
 }

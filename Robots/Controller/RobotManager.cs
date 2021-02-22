@@ -115,12 +115,12 @@ namespace Robots.Controller
         {
             get
             {
-                int counter = this.WarehouseCount;
-                foreach (var element in elements)
+                int counter = 0;
+                foreach (var robot in robots)
                 {
-                    if (element.IsRed)
+                    if ((robot as RobotRed) != null)
                     {
-                        counter++;
+                        counter += robot.Completed;
                     }
                 }
                 return counter;
@@ -131,12 +131,12 @@ namespace Robots.Controller
         {
             get
             {
-                int counter = this.WarehouseCount;
-                foreach (var element in elements)
+                int counter = 0;
+                foreach (var robot in robots)
                 {
-                    if (element.IsGreen)
+                    if ((robot as RobotGreen) != null)
                     {
-                        counter++;
+                        counter += robot.Completed;
                     }
                 }
                 return counter;
@@ -147,12 +147,12 @@ namespace Robots.Controller
         {
             get
             {
-                int counter = this.WarehouseCount;
-                foreach (var element in elements)
+                int counter = 0;
+                foreach (var robot in robots)
                 {
-                    if (element.IsBlue)
+                    if ((robot as RobotGreen) != null)
                     {
-                        counter++;
+                        counter += robot.Completed;
                     }
                 }
                 return counter;

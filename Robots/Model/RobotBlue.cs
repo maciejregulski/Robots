@@ -24,6 +24,7 @@ namespace Robots.Model
             if (this.SimulateJob())
             {
                 element.PaintBlue();
+                this.IncrementCompleted();
             }
         }
     }

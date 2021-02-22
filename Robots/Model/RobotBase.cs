@@ -10,7 +10,11 @@ namespace Robots.Model
     /// </summary>
     public abstract class RobotBase
     {
+        private int completed = 0;
+
         private readonly AtomicBoolean busy = new AtomicBoolean();
+
+        private readonly AtomicBoolean abort = new AtomicBoolean();
 
         public int Id { get; private set; }
 
@@ -21,10 +25,16 @@ namespace Robots.Model
         /// </summary>
         public int Interval { get; set; }
 
+        public int Completed => completed;
+
         /// <summary>
-        /// ToDo: should be atomic boolean.
+        /// This tells the robot to abort current job.
         /// </summary>
-        public bool Abort { get; set; }
+        public bool Abort
+        {
+            get => this.abort.Value;
+            set => this.abort.Value = value;
+        }
 
         /// <summary>
         /// This tells if the robot has the capacity to process the job. Thread safe boolean.
@@ -53,6 +63,11 @@ namespace Robots.Model
             bool abort = SpinWait.SpinUntil(() => this.Abort, this.Interval);
             this.Busy = false;
             return !abort;
+        }
+
+        protected void IncrementCompleted()
+        {
+            Interlocked.Increment(ref this.completed);
         }
     }
 }
