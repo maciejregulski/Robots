@@ -63,6 +63,7 @@
     <Compile Include="Model\RobotBlue.cs" />
     <Compile Include="Model\RobotRed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Statistics.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

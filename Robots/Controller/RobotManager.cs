@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Robots.Log;
 using Robots.Model;
+using Robots.View;
 
 namespace Robots.Controller
 {
@@ -103,6 +104,62 @@ namespace Robots.Controller
                 }
             }
         }
+
+        public int ElapsedMilliseconds => (int)this.stopWatch?.ElapsedMilliseconds;
+
+        private int WarehouseCount => warehouse.Count;
+
+        public int NumberOfElements => this.numberOfElements;
+
+        public int ProcessedRed
+        {
+            get
+            {
+                int counter = this.WarehouseCount;
+                foreach (var element in elements)
+                {
+                    if (element.IsRed)
+                    {
+                        counter++;
+                    }
+                }
+                return counter;
+            }
+        }
+
+        public int ProcessedGreen
+        {
+            get
+            {
+                int counter = this.WarehouseCount;
+                foreach (var element in elements)
+                {
+                    if (element.IsGreen)
+                    {
+                        counter++;
+                    }
+                }
+                return counter;
+            }
+        }
+
+        public int ProcessedBlue
+        {
+            get
+            {
+                int counter = this.WarehouseCount;
+                foreach (var element in elements)
+                {
+                    if (element.IsBlue)
+                    {
+                        counter++;
+                    }
+                }
+                return counter;
+            }
+        }
+        public Statistics Statistics => new Statistics(this.numberOfElements, this.WarehouseCount, 
+                                        this.ProcessedRed, this.ProcessedGreen, this.ProcessedBlue);
 
         private void CreateElements(int number)
         {
@@ -208,6 +265,8 @@ namespace Robots.Controller
 
         public void Stop()
         {
+            this.stopWatch.Stop();
+
             this.elements.CompleteAdding();
             
             foreach(var robot in robots)
@@ -221,7 +280,7 @@ namespace Robots.Controller
         public void ReportStatus()
         {
             Logger.TextColor = ConsoleColor.White;
-            Logger.Info($"Finished job in {this.stopWatch.ElapsedMilliseconds}ms");
+            Logger.Info($"Finished job in {this.ElapsedMilliseconds}ms");
             Logger.Info($"Total elements in warehouse: {warehouse.Count}");
         }
     }
