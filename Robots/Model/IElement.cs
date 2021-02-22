@@ -27,7 +27,5 @@ namespace Robots.Model
         void FinishUp();
 
         void ChangeState(IElementState state);
-
-        void ReportState();
     }
 }

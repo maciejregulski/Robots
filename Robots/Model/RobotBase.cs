@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Robots.Extensions;
+using Robots.Log;
 
 namespace Robots.Model
 {
@@ -12,6 +13,8 @@ namespace Robots.Model
         private readonly AtomicBoolean busy = new AtomicBoolean();
 
         public int Id { get; private set; }
+
+        public ILogger Logger { get; set; }
 
         /// <summary>
         /// Different interval for each color.
@@ -34,6 +37,7 @@ namespace Robots.Model
 
         protected RobotBase(int id, int interval)
         {
+            this.Logger = new NullLogger();
             this.Id = id;
             this.Interval = interval;
         }

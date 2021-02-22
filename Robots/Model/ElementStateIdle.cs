@@ -32,10 +32,5 @@ namespace Robots.Model
         {
             // Stay Idle
         }
-
-        public void ReportState()
-        {
-            Console.WriteLine("Idle.");
-        }
     }
 }

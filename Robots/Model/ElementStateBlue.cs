@@ -39,10 +39,5 @@ namespace Robots.Model
                 this.element.ChangeState(new ElementStateIdle(this.element));
             }
         }
-
-        public void ReportState()
-        {
-            Console.WriteLine("Painting Blue.");
-        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Robots.Log;
 using Robots.Model;
 
 namespace Robots.Controller
@@ -21,23 +23,29 @@ namespace Robots.Controller
 
         private readonly ConcurrentQueue<IElement> warehouse = new ConcurrentQueue<IElement>();
 
+        private Stopwatch stopWatch = new Stopwatch();
+
         public RobotManager(int redRobots, int greenRobots, int blueRobots, int numberOfElements)
         {
+            this.Logger = new ConsoleLogger();
+
             for (int i = 1; i <= redRobots; i++)
             {
-                this.robots.Enqueue(new RobotRed(i, 100));
+                this.robots.Enqueue(new RobotRed(i, 1) { Logger = this.Logger });
             }
             for (int i = 1; i <= greenRobots; i++)
             {
-                this.robots.Enqueue(new RobotGreen(i, 100));
+                this.robots.Enqueue(new RobotGreen(i, 1) { Logger = this.Logger });
             }
             for (int i = 1; i <= blueRobots; i++)
             {
-                this.robots.Enqueue(new RobotBlue(i, 100));
+                this.robots.Enqueue(new RobotBlue(i, 1) { Logger = this.Logger });
             }
 
             this.numberOfElements = numberOfElements;
         }
+
+        public ILogger Logger { get; set; }
 
         public int IntervalRed
         {
@@ -124,19 +132,36 @@ namespace Robots.Controller
 
         public void Start()
         {
+            this.stopWatch = Stopwatch.StartNew();
+
+            List<Task> tasks = new List<Task>();
+
             Task.Run(() => this.CreateElements(this.numberOfElements));
 
             for (int i = 0; i < CoreNumber; i++)
             {
-                Task.Run(() => RunConsumer());
+                tasks.Add(Task.Factory.StartNew(() => RunRobotSheduler()).ContinueWith(t => ReportStatus()));
             }
+
+            //Task.WaitAll(tasks.ToArray());
         }
 
-        private void RunConsumer()
+        private void RunRobotSheduler()
         {
-            foreach (var item in elements.GetConsumingEnumerable())
+            try
             {
-                ProcessElement(item);
+                foreach (var item in elements.GetConsumingEnumerable())
+                {
+                    ProcessElement(item);
+                }
+            }
+            catch (PaintException pex)
+            {
+                Logger.Info($"Paint error => {pex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Logger.Info($"Robot error => {ex.Message}");
             }
         }
 
@@ -170,15 +195,15 @@ namespace Robots.Controller
         private void ElementCompleted(IElement element)
         {
             this.warehouse.Enqueue(element);
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Completed, transfering Element({(element as Element)?.Id}) to the warehouse.");
+            Logger.TextColor = ConsoleColor.Cyan;
+            Logger.Info($"Completed, transfering Element({(element as Element)?.Id}) to the warehouse.");
         }
 
         private void ElementIdle(IElement element)
         {
             this.AddElement(element);
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine($"Idle, returning Element({(element as Element)?.Id}) to the pool.");
+            Logger.TextColor = ConsoleColor.DarkMagenta;
+            Logger.Info($"Idle, returning Element({(element as Element)?.Id}) to the pool.");
         }
 
         public void Stop()
@@ -193,8 +218,9 @@ namespace Robots.Controller
 
         public void ReportStatus()
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"Total elements in warehouse: {warehouse.Count}");
+            Logger.TextColor = ConsoleColor.White;
+            Logger.Info($"Finished job in {this.stopWatch.ElapsedMilliseconds}ms");
+            Logger.Info($"Total elements in warehouse: {warehouse.Count}");
         }
     }
 }

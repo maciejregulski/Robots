@@ -50,7 +50,7 @@ namespace Robots.Model
         {
             if (this.IsRed)
             {
-                throw new Exception("Element was already painted Red.");
+                throw new PaintException("Element was already painted Red.");
             }
             this.State.PaintRed();
 
@@ -60,7 +60,7 @@ namespace Robots.Model
         {
             if (this.IsGreen)
             {
-                throw new Exception("Element was already painted Green.");
+                throw new PaintException("Element was already painted Green.");
             }
             this.State.PaintGreen();
         }
@@ -69,7 +69,7 @@ namespace Robots.Model
         {
             if (this.IsBlue)
             {
-                throw new Exception("Element was already painted Blue.");
+                throw new PaintException("Element was already painted Blue.");
             }
             this.State.PaintBlue();
         }
@@ -98,11 +98,6 @@ namespace Robots.Model
                     this.Color |= ElementColor.Blue;
                 }
             }
-        }
-
-        public void ReportState()
-        {
-            this.State.ReportState();
         }
     }
 }

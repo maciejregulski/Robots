@@ -19,8 +19,8 @@ namespace Robots.Model
                 return;
             }
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Robot({this.Id}) painting Element({element.Id}) Red ({this.Interval}ms)");
+            Logger.TextColor = ConsoleColor.Red;
+            Logger.Info($"Robot({this.Id}) painting Element({element.Id}) Red ({this.Interval}ms)");
             element.PaintRed();
             this.SimulateJob();
         }

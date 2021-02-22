@@ -27,10 +27,5 @@ namespace Robots.Model
         public void FinishUp()
         {
         }
-
-        public void ReportState()
-        {
-            Console.WriteLine("Completed.");
-        }
     }
 }
