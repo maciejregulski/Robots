@@ -214,6 +214,8 @@ namespace Robots.Controller
             {
                 robot.Abort = true;
             }
+
+            ClearQueue();
         }
 
         public void ReportStatus()
