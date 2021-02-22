@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Robots.Controller;
 
 namespace RobotsConsole
@@ -13,8 +14,9 @@ namespace RobotsConsole
             robotService.IntervalGreen = 22;
             robotService.IntervalBlue = 23;
 
-            Console.ReadLine();
-            robotService.ReportStatus();
+            Thread.Sleep(3000);
+            robotService.Stop();
+
             Console.ReadLine();
         }
     }

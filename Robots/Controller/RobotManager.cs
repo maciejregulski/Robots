@@ -157,11 +157,11 @@ namespace Robots.Controller
             }
             catch (PaintException pex)
             {
-                Logger.Info($"Paint error => {pex.Message}");
+                Logger.Error($"Paint error => {pex.Message}");
             }
             catch (Exception ex)
             {
-                Logger.Info($"Robot error => {ex.Message}");
+                Logger.Error($"Robot error => {ex.Message}");
             }
         }
 
