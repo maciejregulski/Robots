@@ -29,6 +29,16 @@
         /// </summary>
         int ProcessingTime { get; }
 
+        /// <summary>
+        /// Paints element in desired color.
+        /// </summary>
+        /// <param name="element">Argument implementing IElement interface.</param>
         void Paint(IElement element);
+
+        /// <summary>
+        /// Measures robot processing time.
+        /// </summary>
+        /// <param name="elapsed"></param>
+        void AddExecutionTime(int elapsed);
     }
 }

@@ -19,13 +19,14 @@ namespace Robots.Model
                 return;
             }
 
-            Logger.TextColor = ConsoleColor.Blue;
-            Logger.Info($"Robot({this.Id}) painting Element({element.Id}) Blue ({this.Interval}ms)");
             if (this.SimulateJob())
             {
                 element.PaintBlue();
                 this.IncrementCompleted();
             }
+
+            Logger.TextColor = ConsoleColor.Blue;
+            Logger.Info($"Robot({this.Id}) painting Element({element.Id}) Blue ({this.Interval}ms)");
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Robots.Extensions;
 using Robots.Log;
 
@@ -61,13 +60,17 @@ namespace Robots.Model
         }
 
         /// <summary>
-        /// Manipulates private fields to gather process statistics.
+        /// Gathers robot statistics.
         /// </summary>
         protected void IncrementCompleted()
         {
             Interlocked.Increment(ref this.completed);
-            Interlocked.Add(ref this.processingTime, this.Interval);
+        }
 
+        /// <inheritdoc/>
+        public void AddExecutionTime(int elapsed)
+        {
+            Interlocked.Add(ref this.processingTime, elapsed);
         }
     }
 }

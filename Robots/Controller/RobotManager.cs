@@ -30,7 +30,7 @@ namespace Robots.Controller
 
         public RobotManager(int redRobots, int greenRobots, int blueRobots, int numberOfElements)
         {
-            this.Logger = new ConsoleLogger();
+            this.Logger = new /*ConsoleLogger*/NullLogger();
 
             this.numberOfElements = numberOfElements;
 
@@ -187,7 +187,9 @@ namespace Robots.Controller
             {
                 if (!robot.Busy)
                 {
+                    var stopWatch = Stopwatch.StartNew();
                     robot.Paint(element);
+                    robot.AddExecutionTime((int)stopWatch.ElapsedMilliseconds);
                 }
 
                 element.FinishUp();
