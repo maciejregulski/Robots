@@ -8,7 +8,7 @@ namespace RobotsUI
     public partial class MainForm : Form
     {
         private RobotManager robotService;
-        
+
         public MainForm()
         {
             InitializeComponent();
@@ -28,6 +28,7 @@ namespace RobotsUI
                 ForeColor = Color.CornflowerBlue,
                 Location = new Point(lblRobots_UsedBlueValue.Left, 10)
             });
+
         }
 
         private void CreateRobotManager()
@@ -53,9 +54,58 @@ namespace RobotsUI
 
             CreateRobotManager();
 
+            this.bindingSource.DataSource = this.robotService.Records;
+            this.dataGridView.DataSource = this.bindingSource;
+            this.dataGridView.Columns.Remove("IsPainted");
+            this.dataGridView.Columns.Remove("IsComplete");
+            this.dataGridView.Columns["Id"].Width = 54;
+            this.dataGridView.Columns["IsRed"].Width = 90;
+            this.dataGridView.Columns["IsGreen"].Width = 90;
+            this.dataGridView.Columns["IsBlue"].Width = 90;
+
+            //this.bindingSource.ListChanged += BindingSource_ListChanged;
+            //this.dataGridView.CellFormatting += DataGridView_CellFormatting;
+
             this.robotService.Start();
 
             this.timer.Enabled = true;
+        }
+
+        private void ColorGridCells()
+        {
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                DataGridViewCell cell = row.Cells["IsRed"];
+                if (IsCellChecked(cell))
+                {
+                    SetCellBackColor(cell, Color.Tomato);
+                }
+                cell = row.Cells["IsGreen"];
+                if (IsCellChecked(cell))
+                {
+                    SetCellBackColor(cell, Color.ForestGreen);
+                }
+                cell = row.Cells["IsBlue"];
+                if (IsCellChecked(cell))
+                {
+                    SetCellBackColor(cell, Color.CornflowerBlue);
+                }
+            }
+        }
+
+        bool IsCellChecked(DataGridViewCell cell)
+        {
+            var value = cell.Value;
+            return (value != null & Convert.ToBoolean(value) == true);
+        }
+
+        void SetCellBackColor(DataGridViewCell cell, Color color)
+        {
+            if (cell.Style == null)
+            {
+                cell.Style = (DataGridViewCellStyle) (cell.InheritedStyle.Clone());
+            }
+            cell.Style.BackColor = color;
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -89,6 +139,8 @@ namespace RobotsUI
             lblRobots_TimeRedValue.Text = $"{robotStat.TimeTotalRed} ms";
             lblRobots_TimeGreenValue.Text = $"{robotStat.TimeTotalGreen} ms";
             lblRobots_TimeBlueValue.Text = $"{robotStat.TimeTotalBlue} ms";
+
+            ColorGridCells();
         }
     }
 }

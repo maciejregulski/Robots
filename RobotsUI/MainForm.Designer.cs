@@ -61,14 +61,17 @@
             this.lblStatistics_Elapsed = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.groupRobots = new System.Windows.Forms.GroupBox();
-            this.lblRobots_Used = new System.Windows.Forms.Label();
-            this.lblRobots_ProcessingTime = new System.Windows.Forms.Label();
-            this.lblRobots_UsedRedValue = new System.Windows.Forms.Label();
-            this.lblRobots_TimeRedValue = new System.Windows.Forms.Label();
-            this.lblRobots_TimeGreenValue = new System.Windows.Forms.Label();
-            this.lblRobots_UsedGreenValue = new System.Windows.Forms.Label();
             this.lblRobots_TimeBlueValue = new System.Windows.Forms.Label();
             this.lblRobots_UsedBlueValue = new System.Windows.Forms.Label();
+            this.lblRobots_TimeGreenValue = new System.Windows.Forms.Label();
+            this.lblRobots_UsedGreenValue = new System.Windows.Forms.Label();
+            this.lblRobots_TimeRedValue = new System.Windows.Forms.Label();
+            this.lblRobots_UsedRedValue = new System.Windows.Forms.Label();
+            this.lblRobots_ProcessingTime = new System.Windows.Forms.Label();
+            this.lblRobots_Used = new System.Windows.Forms.Label();
+            this.groupElements = new System.Windows.Forms.GroupBox();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupConfiguration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericConfiguration_RobotsBlue_Interval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericConfiguration_RobotsBlue)).BeginInit();
@@ -79,6 +82,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericConfiguration_Elements)).BeginInit();
             this.groupStatistics.SuspendLayout();
             this.groupRobots.SuspendLayout();
+            this.groupElements.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // groupConfiguration
@@ -173,7 +179,7 @@
             // lblConfiguration_RobotsGreen_Interval
             // 
             this.lblConfiguration_RobotsGreen_Interval.AutoSize = true;
-            this.lblConfiguration_RobotsGreen_Interval.ForeColor = System.Drawing.Color.Green;
+            this.lblConfiguration_RobotsGreen_Interval.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblConfiguration_RobotsGreen_Interval.Location = new System.Drawing.Point(200, 101);
             this.lblConfiguration_RobotsGreen_Interval.Name = "lblConfiguration_RobotsGreen_Interval";
             this.lblConfiguration_RobotsGreen_Interval.Size = new System.Drawing.Size(83, 13);
@@ -195,7 +201,7 @@
             // lblConfiguration_RobotsGreen
             // 
             this.lblConfiguration_RobotsGreen.AutoSize = true;
-            this.lblConfiguration_RobotsGreen.ForeColor = System.Drawing.Color.Green;
+            this.lblConfiguration_RobotsGreen.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblConfiguration_RobotsGreen.Location = new System.Drawing.Point(16, 101);
             this.lblConfiguration_RobotsGreen.Name = "lblConfiguration_RobotsGreen";
             this.lblConfiguration_RobotsGreen.Size = new System.Drawing.Size(74, 13);
@@ -284,7 +290,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(310, 382);
+            this.btnStart.Location = new System.Drawing.Point(127, 395);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -294,7 +300,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(416, 382);
+            this.btnStop.Location = new System.Drawing.Point(233, 395);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 2;
@@ -316,9 +322,9 @@
             this.groupStatistics.Controls.Add(this.lblStatistics_Completed);
             this.groupStatistics.Controls.Add(this.lblStatistics_ElapsedValue);
             this.groupStatistics.Controls.Add(this.lblStatistics_Elapsed);
-            this.groupStatistics.Location = new System.Drawing.Point(433, 24);
+            this.groupStatistics.Location = new System.Drawing.Point(472, 231);
             this.groupStatistics.Name = "groupStatistics";
-            this.groupStatistics.Size = new System.Drawing.Size(340, 187);
+            this.groupStatistics.Size = new System.Drawing.Size(316, 187);
             this.groupStatistics.TabIndex = 3;
             this.groupStatistics.TabStop = false;
             this.groupStatistics.Text = "Statistics";
@@ -352,7 +358,7 @@
             // lblStatistics_ProcessedGreen
             // 
             this.lblStatistics_ProcessedGreen.AutoSize = true;
-            this.lblStatistics_ProcessedGreen.ForeColor = System.Drawing.Color.Green;
+            this.lblStatistics_ProcessedGreen.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblStatistics_ProcessedGreen.Location = new System.Drawing.Point(24, 129);
             this.lblStatistics_ProcessedGreen.Name = "lblStatistics_ProcessedGreen";
             this.lblStatistics_ProcessedGreen.Size = new System.Drawing.Size(106, 13);
@@ -444,19 +450,58 @@
             this.groupRobots.Controls.Add(this.lblRobots_Used);
             this.groupRobots.Location = new System.Drawing.Point(24, 231);
             this.groupRobots.Name = "groupRobots";
-            this.groupRobots.Size = new System.Drawing.Size(749, 98);
+            this.groupRobots.Size = new System.Drawing.Size(432, 98);
             this.groupRobots.TabIndex = 4;
             this.groupRobots.TabStop = false;
             this.groupRobots.Text = "Robots";
             // 
-            // lblRobots_Used
+            // lblRobots_TimeBlueValue
             // 
-            this.lblRobots_Used.AutoSize = true;
-            this.lblRobots_Used.Location = new System.Drawing.Point(16, 46);
-            this.lblRobots_Used.Name = "lblRobots_Used";
-            this.lblRobots_Used.Size = new System.Drawing.Size(70, 13);
-            this.lblRobots_Used.TabIndex = 1;
-            this.lblRobots_Used.Text = "Robots used:";
+            this.lblRobots_TimeBlueValue.AutoSize = true;
+            this.lblRobots_TimeBlueValue.Location = new System.Drawing.Point(337, 72);
+            this.lblRobots_TimeBlueValue.Name = "lblRobots_TimeBlueValue";
+            this.lblRobots_TimeBlueValue.Size = new System.Drawing.Size(0, 13);
+            this.lblRobots_TimeBlueValue.TabIndex = 8;
+            // 
+            // lblRobots_UsedBlueValue
+            // 
+            this.lblRobots_UsedBlueValue.AutoSize = true;
+            this.lblRobots_UsedBlueValue.Location = new System.Drawing.Point(337, 46);
+            this.lblRobots_UsedBlueValue.Name = "lblRobots_UsedBlueValue";
+            this.lblRobots_UsedBlueValue.Size = new System.Drawing.Size(0, 13);
+            this.lblRobots_UsedBlueValue.TabIndex = 7;
+            // 
+            // lblRobots_TimeGreenValue
+            // 
+            this.lblRobots_TimeGreenValue.AutoSize = true;
+            this.lblRobots_TimeGreenValue.Location = new System.Drawing.Point(259, 72);
+            this.lblRobots_TimeGreenValue.Name = "lblRobots_TimeGreenValue";
+            this.lblRobots_TimeGreenValue.Size = new System.Drawing.Size(0, 13);
+            this.lblRobots_TimeGreenValue.TabIndex = 6;
+            // 
+            // lblRobots_UsedGreenValue
+            // 
+            this.lblRobots_UsedGreenValue.AutoSize = true;
+            this.lblRobots_UsedGreenValue.Location = new System.Drawing.Point(259, 46);
+            this.lblRobots_UsedGreenValue.Name = "lblRobots_UsedGreenValue";
+            this.lblRobots_UsedGreenValue.Size = new System.Drawing.Size(0, 13);
+            this.lblRobots_UsedGreenValue.TabIndex = 5;
+            // 
+            // lblRobots_TimeRedValue
+            // 
+            this.lblRobots_TimeRedValue.AutoSize = true;
+            this.lblRobots_TimeRedValue.Location = new System.Drawing.Point(182, 72);
+            this.lblRobots_TimeRedValue.Name = "lblRobots_TimeRedValue";
+            this.lblRobots_TimeRedValue.Size = new System.Drawing.Size(0, 13);
+            this.lblRobots_TimeRedValue.TabIndex = 4;
+            // 
+            // lblRobots_UsedRedValue
+            // 
+            this.lblRobots_UsedRedValue.AutoSize = true;
+            this.lblRobots_UsedRedValue.Location = new System.Drawing.Point(182, 46);
+            this.lblRobots_UsedRedValue.Name = "lblRobots_UsedRedValue";
+            this.lblRobots_UsedRedValue.Size = new System.Drawing.Size(0, 13);
+            this.lblRobots_UsedRedValue.TabIndex = 3;
             // 
             // lblRobots_ProcessingTime
             // 
@@ -467,62 +512,41 @@
             this.lblRobots_ProcessingTime.TabIndex = 2;
             this.lblRobots_ProcessingTime.Text = "Robots total processing time:";
             // 
-            // lblRobots_UsedRedValue
+            // lblRobots_Used
             // 
-            this.lblRobots_UsedRedValue.AutoSize = true;
-            this.lblRobots_UsedRedValue.Location = new System.Drawing.Point(182, 46);
-            this.lblRobots_UsedRedValue.Name = "lblRobots_UsedRedValue";
-            this.lblRobots_UsedRedValue.Size = new System.Drawing.Size(0, 13);
-            this.lblRobots_UsedRedValue.TabIndex = 3;
+            this.lblRobots_Used.AutoSize = true;
+            this.lblRobots_Used.Location = new System.Drawing.Point(16, 46);
+            this.lblRobots_Used.Name = "lblRobots_Used";
+            this.lblRobots_Used.Size = new System.Drawing.Size(70, 13);
+            this.lblRobots_Used.TabIndex = 1;
+            this.lblRobots_Used.Text = "Robots used:";
             // 
-            // lblRobots_TimeRedValue
+            // groupElements
             // 
-            this.lblRobots_TimeRedValue.AutoSize = true;
-            this.lblRobots_TimeRedValue.Location = new System.Drawing.Point(182, 72);
-            this.lblRobots_TimeRedValue.Name = "lblRobots_TimeRedValue";
-            this.lblRobots_TimeRedValue.Size = new System.Drawing.Size(53, 13);
-            this.lblRobots_TimeRedValue.TabIndex = 4;
-            this.lblRobots_TimeRedValue.Text = "40000 ms";
+            this.groupElements.Controls.Add(this.dataGridView);
+            this.groupElements.Location = new System.Drawing.Point(430, 24);
+            this.groupElements.Name = "groupElements";
+            this.groupElements.Size = new System.Drawing.Size(358, 187);
+            this.groupElements.TabIndex = 5;
+            this.groupElements.TabStop = false;
+            this.groupElements.Text = "Elements";
             // 
-            // lblRobots_TimeGreenValue
+            // dataGridView
             // 
-            this.lblRobots_TimeGreenValue.AutoSize = true;
-            this.lblRobots_TimeGreenValue.Location = new System.Drawing.Point(259, 72);
-            this.lblRobots_TimeGreenValue.Name = "lblRobots_TimeGreenValue";
-            this.lblRobots_TimeGreenValue.Size = new System.Drawing.Size(53, 13);
-            this.lblRobots_TimeGreenValue.TabIndex = 6;
-            this.lblRobots_TimeGreenValue.Text = "40000 ms";
-            // 
-            // lblRobots_UsedGreenValue
-            // 
-            this.lblRobots_UsedGreenValue.AutoSize = true;
-            this.lblRobots_UsedGreenValue.Location = new System.Drawing.Point(259, 46);
-            this.lblRobots_UsedGreenValue.Name = "lblRobots_UsedGreenValue";
-            this.lblRobots_UsedGreenValue.Size = new System.Drawing.Size(0, 13);
-            this.lblRobots_UsedGreenValue.TabIndex = 5;
-            // 
-            // lblRobots_TimeBlueValue
-            // 
-            this.lblRobots_TimeBlueValue.AutoSize = true;
-            this.lblRobots_TimeBlueValue.Location = new System.Drawing.Point(337, 72);
-            this.lblRobots_TimeBlueValue.Name = "lblRobots_TimeBlueValue";
-            this.lblRobots_TimeBlueValue.Size = new System.Drawing.Size(53, 13);
-            this.lblRobots_TimeBlueValue.TabIndex = 8;
-            this.lblRobots_TimeBlueValue.Text = "40000 ms";
-            // 
-            // lblRobots_UsedBlueValue
-            // 
-            this.lblRobots_UsedBlueValue.AutoSize = true;
-            this.lblRobots_UsedBlueValue.Location = new System.Drawing.Point(337, 46);
-            this.lblRobots_UsedBlueValue.Name = "lblRobots_UsedBlueValue";
-            this.lblRobots_UsedBlueValue.Size = new System.Drawing.Size(0, 13);
-            this.lblRobots_UsedBlueValue.TabIndex = 7;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.GridColor = System.Drawing.Color.AliceBlue;
+            this.dataGridView.Location = new System.Drawing.Point(7, 23);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.RowHeadersVisible = false;
+            this.dataGridView.Size = new System.Drawing.Size(345, 152);
+            this.dataGridView.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(809, 450);
+            this.Controls.Add(this.groupElements);
             this.Controls.Add(this.groupRobots);
             this.Controls.Add(this.groupStatistics);
             this.Controls.Add(this.btnStop);
@@ -543,6 +567,9 @@
             this.groupStatistics.PerformLayout();
             this.groupRobots.ResumeLayout(false);
             this.groupRobots.PerformLayout();
+            this.groupElements.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -589,6 +616,9 @@
         private System.Windows.Forms.Label lblRobots_UsedGreenValue;
         private System.Windows.Forms.Label lblRobots_TimeRedValue;
         private System.Windows.Forms.Label lblRobots_UsedRedValue;
+        private System.Windows.Forms.GroupBox groupElements;
+        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.BindingSource bindingSource;
     }
 }
 
