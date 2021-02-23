@@ -24,6 +24,8 @@ namespace Robots.Controller
 
         private readonly ConcurrentQueue<IElement> warehouse = new ConcurrentQueue<IElement>();
 
+        private readonly List<IElement> records = new List<IElement>();
+
         private Stopwatch stopWatch = new Stopwatch();
 
         public RobotManager(int redRobots, int greenRobots, int blueRobots, int numberOfElements)
@@ -113,7 +115,7 @@ namespace Robots.Controller
 
         public int NumberOfElements => this.numberOfElements;
 
-        public List<IElement> Records = new List<IElement>();
+        public List<IElement> Records => this.records;
 
         private void CreateElements(int number)
         {
@@ -121,7 +123,7 @@ namespace Robots.Controller
             {
                 var element = new Element(i);
                 this.AddElement(element);
-                this.Records.Add(element);
+                this.records.Add(element);
             }
         }
 
@@ -130,15 +132,16 @@ namespace Robots.Controller
             elements.Add(element);
         }
 
-        public void AddElements(IEnumerable<IElement> items)
+        public void AddElementToWarehouse(IElement element)
         {
-            foreach (var item in items)
+            this.warehouse.Enqueue(element);
+            if (this.warehouse.Count == this.numberOfElements)
             {
-                AddElement(item);
+                this.Stop();
             }
         }
 
-        public void ClearQueue()
+        private void ClearQueue()
         {
             while (elements.TryTake(out _));
         }
@@ -207,7 +210,7 @@ namespace Robots.Controller
 
         private void ElementCompleted(IElement element)
         {
-            this.warehouse.Enqueue(element);
+            this.AddElementToWarehouse(element);
             Logger.TextColor = ConsoleColor.Cyan;
             Logger.Info($"Completed, transfering Element({(element as Element)?.Id}) to the warehouse.");
         }

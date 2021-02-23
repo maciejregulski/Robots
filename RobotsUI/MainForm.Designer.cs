@@ -179,7 +179,7 @@
             // lblConfiguration_RobotsGreen_Interval
             // 
             this.lblConfiguration_RobotsGreen_Interval.AutoSize = true;
-            this.lblConfiguration_RobotsGreen_Interval.ForeColor = System.Drawing.Color.Green;
+            this.lblConfiguration_RobotsGreen_Interval.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblConfiguration_RobotsGreen_Interval.Location = new System.Drawing.Point(200, 101);
             this.lblConfiguration_RobotsGreen_Interval.Name = "lblConfiguration_RobotsGreen_Interval";
             this.lblConfiguration_RobotsGreen_Interval.Size = new System.Drawing.Size(83, 13);
@@ -201,7 +201,7 @@
             // lblConfiguration_RobotsGreen
             // 
             this.lblConfiguration_RobotsGreen.AutoSize = true;
-            this.lblConfiguration_RobotsGreen.ForeColor = System.Drawing.Color.Green;
+            this.lblConfiguration_RobotsGreen.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblConfiguration_RobotsGreen.Location = new System.Drawing.Point(16, 101);
             this.lblConfiguration_RobotsGreen.Name = "lblConfiguration_RobotsGreen";
             this.lblConfiguration_RobotsGreen.Size = new System.Drawing.Size(74, 13);
@@ -358,7 +358,7 @@
             // lblStatistics_ProcessedGreen
             // 
             this.lblStatistics_ProcessedGreen.AutoSize = true;
-            this.lblStatistics_ProcessedGreen.ForeColor = System.Drawing.Color.Green;
+            this.lblStatistics_ProcessedGreen.ForeColor = System.Drawing.Color.ForestGreen;
             this.lblStatistics_ProcessedGreen.Location = new System.Drawing.Point(24, 129);
             this.lblStatistics_ProcessedGreen.Name = "lblStatistics_ProcessedGreen";
             this.lblStatistics_ProcessedGreen.Size = new System.Drawing.Size(106, 13);
