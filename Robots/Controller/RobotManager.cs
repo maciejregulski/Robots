@@ -30,6 +30,8 @@ namespace Robots.Controller
         {
             this.Logger = new ConsoleLogger();
 
+            this.numberOfElements = numberOfElements;
+
             for (int i = 1; i <= redRobots; i++)
             {
                 this.robots.Enqueue(new RobotRed(i, 1) { Logger = this.Logger });
@@ -43,7 +45,7 @@ namespace Robots.Controller
                 this.robots.Enqueue(new RobotBlue(i, 1) { Logger = this.Logger });
             }
 
-            this.numberOfElements = numberOfElements;
+            this.CreateElements(this.numberOfElements);
         }
 
         public ILogger Logger { get; set; }
@@ -111,11 +113,15 @@ namespace Robots.Controller
 
         public int NumberOfElements => this.numberOfElements;
 
+        public List<IElement> Records = new List<IElement>();
+
         private void CreateElements(int number)
         {
             for (int i = 1; i <= number; i++)
             {
-                this.AddElement(new Element(i));
+                var element = new Element(i);
+                this.AddElement(element);
+                this.Records.Add(element);
             }
         }
 
@@ -143,7 +149,7 @@ namespace Robots.Controller
 
             List<Task> tasks = new List<Task>();
 
-            Task.Run(() => this.CreateElements(this.numberOfElements));
+            //Task.Run(() => this.CreateElements(this.numberOfElements));
 
             for (int i = 0; i < CoreNumber; i++)
             {
