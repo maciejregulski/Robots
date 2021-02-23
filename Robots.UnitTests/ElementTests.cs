@@ -64,11 +64,27 @@ namespace Robots.UnitTests
         public void Element_WhenAllPaintMethodsExecuted_VerifyStateTransitionToComplete()
         {
             this.element.PaintRed();
+            this.element.FinishUp();
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
             this.element.PaintGreen();
+            this.element.FinishUp();
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
             this.element.PaintBlue();
             this.element.FinishUp();
-
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateCompleted));
             Assert.IsTrue(this.element.IsComplete);
+        }
+
+        [TestMethod]
+        [Owner("Maciej Regulski")]
+        [TestCategory("UnitTest")]
+        [TestCategory("CheckIn")]
+        public void Element_WhenPaintRedMethodsExecuted_VerifyStateTransitionToIdle()
+        {
+            this.element.PaintRed();
+            this.element.FinishUp();
+
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
         }
         /// <summary>
         /// Verify if Element is painted.
@@ -77,6 +93,7 @@ namespace Robots.UnitTests
         [Owner("Maciej Regulski")]
         [TestCategory("UnitTest")]
         [TestCategory("CheckIn")]
+        [Ignore]
         public void Element_WhenAllPaintMethodsExecuted_RaisesCompletedEvent()
         {
             var eventRaised = new AutoResetEvent(false);

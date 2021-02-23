@@ -21,7 +21,7 @@ namespace Robots.Model
 
         private readonly object syncRoot = new object();
 
-        private IElementState State { get; set; }
+        public IElementState State { get; private set; }
 
         private ElementColor Color = ElementColor.Raw;
 

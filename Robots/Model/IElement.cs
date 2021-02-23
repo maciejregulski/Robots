@@ -16,6 +16,8 @@ namespace Robots.Model
 
         bool IsComplete { get; }
 
+        IElementState State { get; }
+
         void ReturnToPool();
 
         void PaintRed();
