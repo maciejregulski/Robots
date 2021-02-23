@@ -54,6 +54,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RobotIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RobotIcon.Designer.cs">
+      <DependentUpon>RobotIcon.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

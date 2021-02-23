@@ -12,6 +12,8 @@ namespace Robots.Model
     {
         private int completed = 0;
 
+        private int processingTime = 0;
+
         private readonly AtomicBoolean busy = new AtomicBoolean();
 
         private readonly AtomicBoolean abort = new AtomicBoolean();
@@ -20,25 +22,18 @@ namespace Robots.Model
 
         public ILogger Logger { get; set; }
 
-        /// <summary>
-        /// Different interval for each color.
-        /// </summary>
         public int Interval { get; set; }
 
-        public int Completed => completed;
+        public int Completed => this.completed;
 
-        /// <summary>
-        /// This tells the robot to abort current job.
-        /// </summary>
+        public int ProcessingTime => this.processingTime;
+
         public bool Abort
         {
             get => this.abort.Value;
             set => this.abort.Value = value;
         }
 
-        /// <summary>
-        /// This tells if the robot has the capacity to process the job. Thread safe boolean.
-        /// </summary>
         public bool Busy
         {
             get => this.busy.Value;
@@ -65,9 +60,14 @@ namespace Robots.Model
             return !abort;
         }
 
+        /// <summary>
+        /// Manipulates private fields to gather process statistics.
+        /// </summary>
         protected void IncrementCompleted()
         {
             Interlocked.Increment(ref this.completed);
+            Interlocked.Add(ref this.processingTime, this.Interval);
+
         }
     }
 }

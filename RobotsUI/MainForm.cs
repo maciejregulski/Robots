@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Robots.Controller;
 
@@ -11,6 +12,22 @@ namespace RobotsUI
         public MainForm()
         {
             InitializeComponent();
+
+            groupRobots.Controls.Add(new RobotIcon()
+            {
+                ForeColor = Color.Tomato,
+                Location = new Point(lblRobots_UsedRedValue.Left, 10)
+            });
+            groupRobots.Controls.Add(new RobotIcon()
+            {
+                ForeColor = Color.DarkGreen,
+                Location = new Point(lblRobots_UsedGreenValue.Left, 10)
+            });
+            groupRobots.Controls.Add(new RobotIcon()
+            {
+                ForeColor = Color.CornflowerBlue,
+                Location = new Point(lblRobots_UsedBlueValue.Left, 10)
+            });
         }
 
         private void CreateRobotManager()
@@ -55,12 +72,23 @@ namespace RobotsUI
         private void timer_Tick(object sender, EventArgs e)
         {
             lblStatistics_ElapsedValue.Text = $"{this.robotService.ElapsedMilliseconds} ms";
-            var statistics = this.robotService.Statistics;
-            lblStatistics_CompletedValue.Text = $"{statistics.Completed} ({statistics.CompletedPercentage:F2}%)";
-            lblStatistics_LeftValue.Text = $"{statistics.Left} ({statistics.LeftPercentage:F2}%)";
-            lblStatistics_ProcessedRedValue.Text = $"{statistics.CompletedRed} ({statistics.CompletedRedPercentage:F2}%)";
-            lblStatistics_ProcessedGreenValue.Text = $"{statistics.CompletedGreen} ({statistics.CompletedGreenPercentage:F2}%)";
-            lblStatistics_ProcessedBlueValue.Text = $"{statistics.CompletedBlue} ({statistics.CompletedBluePercentage:F2}%)";
+
+            var statistics = this.robotService.Statistics();
+            var elementStat = statistics.ElementStatistics;
+            var robotStat = statistics.RobotStatistics;
+
+            lblStatistics_CompletedValue.Text = $"{elementStat.Completed} ({elementStat.CompletedPercentage:F2}%)";
+            lblStatistics_LeftValue.Text = $"{elementStat.Left} ({elementStat.LeftPercentage:F2}%)";
+            lblStatistics_ProcessedRedValue.Text = $"{elementStat.CompletedRed} ({elementStat.CompletedRedPercentage:F2}%)";
+            lblStatistics_ProcessedGreenValue.Text = $"{elementStat.CompletedGreen} ({elementStat.CompletedGreenPercentage:F2}%)";
+            lblStatistics_ProcessedBlueValue.Text = $"{elementStat.CompletedBlue} ({elementStat.CompletedBluePercentage:F2}%)";
+
+            lblRobots_UsedRedValue.Text = $"{robotStat.BusyRed} / {(int)numericConfiguration_RobotsRed.Value}";
+            lblRobots_UsedGreenValue.Text = $"{robotStat.BusyGreen} / {(int)numericConfiguration_RobotsGreen.Value}";
+            lblRobots_UsedBlueValue.Text = $"{robotStat.BusyBlue} / {(int)numericConfiguration_RobotsBlue.Value}";
+            lblRobots_TimeRedValue.Text = $"{robotStat.TimeTotalRed} ms";
+            lblRobots_TimeGreenValue.Text = $"{robotStat.TimeTotalGreen} ms";
+            lblRobots_TimeBlueValue.Text = $"{robotStat.TimeTotalBlue} ms";
         }
     }
 }

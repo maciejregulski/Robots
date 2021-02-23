@@ -105,61 +105,11 @@ namespace Robots.Controller
             }
         }
 
-        public int ElapsedMilliseconds => (int)this.stopWatch?.ElapsedMilliseconds;
+        public int ElapsedMilliseconds => (int) (stopWatch?.ElapsedMilliseconds ?? 0);
 
         private int WarehouseCount => warehouse.Count;
 
         public int NumberOfElements => this.numberOfElements;
-
-        public int ProcessedRed
-        {
-            get
-            {
-                int counter = 0;
-                foreach (var robot in robots)
-                {
-                    if ((robot as RobotRed) != null)
-                    {
-                        counter += robot.Completed;
-                    }
-                }
-                return counter;
-            }
-        }
-
-        public int ProcessedGreen
-        {
-            get
-            {
-                int counter = 0;
-                foreach (var robot in robots)
-                {
-                    if ((robot as RobotGreen) != null)
-                    {
-                        counter += robot.Completed;
-                    }
-                }
-                return counter;
-            }
-        }
-
-        public int ProcessedBlue
-        {
-            get
-            {
-                int counter = 0;
-                foreach (var robot in robots)
-                {
-                    if ((robot as RobotGreen) != null)
-                    {
-                        counter += robot.Completed;
-                    }
-                }
-                return counter;
-            }
-        }
-        public Statistics Statistics => new Statistics(this.numberOfElements, this.WarehouseCount, 
-                                        this.ProcessedRed, this.ProcessedGreen, this.ProcessedBlue);
 
         private void CreateElements(int number)
         {
@@ -282,6 +232,38 @@ namespace Robots.Controller
             Logger.TextColor = ConsoleColor.White;
             Logger.Info($"Finished job in {this.ElapsedMilliseconds}ms");
             Logger.Info($"Total elements in warehouse: {warehouse.Count}");
+        }
+
+        public Statistics Statistics()
+        {
+            int[] processed = new int[3];
+            int[] busy = new int[3];
+            int[] totalTime = new int[3];
+            foreach (var robot in robots)
+            {
+                if ((robot as RobotRed) != null)
+                {
+                    processed[0] += robot.Completed;
+                    busy[0] += robot.Busy ? 1 : 0;
+                    totalTime[0] += robot.ProcessingTime;
+                }
+                else if ((robot as RobotGreen) != null)
+                {
+                    processed[1] += robot.Completed;
+                    busy[1] += robot.Busy ? 1 : 0;
+                    totalTime[1] += robot.ProcessingTime;
+                }
+                else if ((robot as RobotBlue) != null)
+                {
+                    processed[2] += robot.Completed;
+                    busy[2] += robot.Busy ? 1 : 0;
+                    totalTime[2] += robot.ProcessingTime;
+                }
+            }
+
+            var elementStatistics = new ElementStatistics(this.numberOfElements, this.WarehouseCount, processed[0], processed[1], processed[2]);
+            var robotStatistics = new RobotStatistics(busy[0], busy[1], busy[2], totalTime[0], totalTime[1], totalTime[2]);
+            return new Statistics(elementStatistics, robotStatistics);
         }
     }
 }
