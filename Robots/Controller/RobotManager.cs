@@ -30,8 +30,6 @@ namespace Robots.Controller
 
         private event EventHandler<IElement> EnqueueIdleElement;
 
-        private event EventHandler StopProcessing;
-
         public RobotManager(int redRobots, int greenRobots, int blueRobots, int numberOfElements)
         {
             this.Logger = new /*ConsoleLogger*/NullLogger();
@@ -43,8 +41,8 @@ namespace Robots.Controller
             this.coreNumber = redRobots + greenRobots + blueRobots;
 
             this.EnqueueIdleElement += this.RobotManager_EnqueueIdleElement;
-            this.StopProcessing += this.RobotManager_StopProcessing;
-            // Distribute robots equaly
+            
+            // Distribute robots equally
             int max = Math.Max(redRobots, Math.Max(greenRobots, blueRobots));
             for (int i = 1; i <= max; i++)
             {
@@ -158,14 +156,8 @@ namespace Robots.Controller
             this.warehouse.Enqueue(element);
             if (this.warehouse.Count == this.NumberOfElements)
             {
-                var handler = this.StopProcessing;
-                handler?.Invoke(this, EventArgs.Empty);
+                this.Stop();
             }
-        }
-
-        private void RobotManager_StopProcessing(object sender, EventArgs e)
-        {
-            this.Stop();
         }
 
         private void ClearBlockingCollection()
