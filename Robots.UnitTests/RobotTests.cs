@@ -10,6 +10,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 //using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Robots.Model;
@@ -57,5 +58,53 @@ namespace Robots.UnitTests
             Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
         }
 
+        /// <summary>
+        /// Verify when all paint methods executed element is completed.
+        /// </summary>
+        [TestMethod]
+        [Owner("Maciej Regulski")]
+        [TestCategory("UnitTest")]
+        [TestCategory("CheckIn")]
+        public void RobotRedGreenBlue_WhenPaintMethodIsExecutedOnEachRobot_VerifyElementIsCompleted()
+        {
+            new RobotRed(1, 10).Paint(this.element);
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateRed));
+            this.element.FinishUp();
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
+            
+            new RobotGreen(1, 10).Paint(this.element);
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateGreen));
+            this.element.FinishUp();
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
+
+            new RobotBlue(1, 10).Paint(this.element);
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateBlue));
+            this.element.FinishUp();
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateCompleted));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        [Owner("Maciej Regulski")]
+        [TestCategory("UnitTest")]
+        [TestCategory("CheckIn")]
+        public void RobotRed_WhenPaintMethodIsAborted_VerifyElementIsNotPaintedRed()
+        {
+            var startPainting = new ManualResetEvent(false);
+            var paintFinished = new ManualResetEvent(false);
+            var robot = new RobotRed(1, 1000);
+            Task.Run(() => {
+                startPainting.WaitOne(TimeSpan.FromSeconds(1));
+                robot.Paint(this.element);
+                paintFinished.Set();
+            });
+            startPainting.Set();
+            robot.Abort = true;
+            paintFinished.WaitOne(TimeSpan.FromSeconds(2));
+            Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
+            Assert.IsFalse(this.element.IsRed);
+        }
     }
 }

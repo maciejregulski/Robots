@@ -86,6 +86,7 @@ namespace Robots.UnitTests
 
             Assert.IsInstanceOfType(this.element.State, typeof(ElementStateIdle));
         }
+
         /// <summary>
         /// Verify if Element is painted.
         /// </summary>
@@ -111,6 +112,5 @@ namespace Robots.UnitTests
 
             Assert.IsTrue(wasRaised);
         }
-
     }
 }
