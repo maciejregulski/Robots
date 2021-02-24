@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\AtomicBoolean.cs" />
+    <Compile Include="Extensions\ConcurrentQueueExtensions.cs" />
     <Compile Include="Log\BaseLogger.cs" />
     <Compile Include="Log\ConsoleLogger.cs" />
     <Compile Include="Log\ILogger.cs" />
