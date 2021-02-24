@@ -14,10 +14,8 @@ namespace Robots.Controller
     /// </summary>
     public class RobotManager
     {
-        private const int CoreNumber = 4;
+        private readonly int coreNumber = 0;
         
-        private readonly int numberOfElements;
-
         private readonly BlockingCollection<IElement> elements = new BlockingCollection<IElement>(new ConcurrentQueue<IElement>());
 
         private readonly ConcurrentQueue<IRobot> robots = new ConcurrentQueue<IRobot>();
@@ -32,25 +30,42 @@ namespace Robots.Controller
         {
             this.Logger = new /*ConsoleLogger*/NullLogger();
 
-            this.numberOfElements = numberOfElements;
+            this.NumberOfElements = numberOfElements;
+            this.NumberOfRedRobots = redRobots;
+            this.NumberOfGreenRobots = greenRobots;
+            this.NumberOfBlueRobots = blueRobots;
+            this.coreNumber = redRobots + greenRobots + blueRobots;
 
-            for (int i = 1; i <= redRobots; i++)
+            // Distribute robots equaly
+            int max = Math.Max(redRobots, Math.Max(greenRobots, blueRobots));
+            for (int i = 1; i <= max; i++)
             {
-                this.robots.Enqueue(new RobotRed(i, 1) { Logger = this.Logger });
-            }
-            for (int i = 1; i <= greenRobots; i++)
-            {
-                this.robots.Enqueue(new RobotGreen(i, 1) { Logger = this.Logger });
-            }
-            for (int i = 1; i <= blueRobots; i++)
-            {
-                this.robots.Enqueue(new RobotBlue(i, 1) { Logger = this.Logger });
+                if (i <= redRobots)
+                {
+                    this.robots.Enqueue(new RobotRed(i, 1) { Logger = this.Logger });
+                }
+                if (i <= greenRobots)
+                {
+                    this.robots.Enqueue(new RobotGreen(i, 1) { Logger = this.Logger });
+                }
+                if (i<= blueRobots)
+                {
+                    this.robots.Enqueue(new RobotBlue(i, 1) { Logger = this.Logger });
+                }
             }
 
-            this.CreateElements(this.numberOfElements);
+            this.CreateElements(numberOfElements);
         }
 
         public ILogger Logger { get; set; }
+
+        public int NumberOfElements { get; private set; }
+
+        public int NumberOfRedRobots { get; private set; }
+
+        public int NumberOfGreenRobots { get; private set; }
+
+        public int NumberOfBlueRobots { get; private set; }
 
         public int IntervalRed
         {
@@ -113,8 +128,6 @@ namespace Robots.Controller
 
         private int WarehouseCount => warehouse.Count;
 
-        public int NumberOfElements => this.numberOfElements;
-
         public List<IElement> Records => this.records;
 
         private void CreateElements(int number)
@@ -135,7 +148,7 @@ namespace Robots.Controller
         public void AddElementToWarehouse(IElement element)
         {
             this.warehouse.Enqueue(element);
-            if (this.warehouse.Count == this.numberOfElements)
+            if (this.warehouse.Count == this.NumberOfElements)
             {
                 this.Stop();
             }
@@ -154,7 +167,7 @@ namespace Robots.Controller
 
             //Task.Run(() => this.CreateElements(this.numberOfElements));
 
-            for (int i = 0; i < CoreNumber; i++)
+            for (int i = 0; i < this.coreNumber; i++)
             {
                 tasks.Add(Task.Factory.StartNew(() => RunRobotSheduler()).ContinueWith(t => ReportStatus()));
             }
@@ -272,7 +285,7 @@ namespace Robots.Controller
                 }
             }
 
-            var elementStatistics = new ElementStatistics(this.numberOfElements, this.WarehouseCount, processed[0], processed[1], processed[2]);
+            var elementStatistics = new ElementStatistics(this.NumberOfElements, this.WarehouseCount, processed[0], processed[1], processed[2]);
             var robotStatistics = new RobotStatistics(busy[0], busy[1], busy[2], totalTime[0], totalTime[1], totalTime[2]);
             return new Statistics(elementStatistics, robotStatistics);
         }

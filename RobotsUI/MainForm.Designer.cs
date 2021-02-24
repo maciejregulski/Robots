@@ -537,6 +537,7 @@
             this.dataGridView.GridColor = System.Drawing.Color.AliceBlue;
             this.dataGridView.Location = new System.Drawing.Point(7, 23);
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(345, 152);
             this.dataGridView.TabIndex = 0;

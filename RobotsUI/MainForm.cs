@@ -58,6 +58,7 @@ namespace RobotsUI
             this.dataGridView.DataSource = this.bindingSource;
             this.dataGridView.Columns.Remove("IsPainted");
             this.dataGridView.Columns.Remove("IsComplete");
+            this.dataGridView.Columns.Remove("State");
             this.dataGridView.Columns["Id"].Width = 54;
             this.dataGridView.Columns["IsRed"].Width = 90;
             this.dataGridView.Columns["IsGreen"].Width = 90;
@@ -133,9 +134,9 @@ namespace RobotsUI
             lblStatistics_ProcessedGreenValue.Text = $"{elementStat.CompletedGreen} ({elementStat.CompletedGreenPercentage:F2}%)";
             lblStatistics_ProcessedBlueValue.Text = $"{elementStat.CompletedBlue} ({elementStat.CompletedBluePercentage:F2}%)";
 
-            lblRobots_UsedRedValue.Text = $"{robotStat.BusyRed} / {(int)numericConfiguration_RobotsRed.Value}";
-            lblRobots_UsedGreenValue.Text = $"{robotStat.BusyGreen} / {(int)numericConfiguration_RobotsGreen.Value}";
-            lblRobots_UsedBlueValue.Text = $"{robotStat.BusyBlue} / {(int)numericConfiguration_RobotsBlue.Value}";
+            lblRobots_UsedRedValue.Text = $"{robotStat.BusyRed} / {this.robotService.NumberOfRedRobots}";
+            lblRobots_UsedGreenValue.Text = $"{robotStat.BusyGreen} / {this.robotService.NumberOfGreenRobots}";
+            lblRobots_UsedBlueValue.Text = $"{robotStat.BusyBlue} / {this.robotService.NumberOfBlueRobots}";
             lblRobots_TimeRedValue.Text = $"{robotStat.TimeTotalRed} ms";
             lblRobots_TimeGreenValue.Text = $"{robotStat.TimeTotalGreen} ms";
             lblRobots_TimeBlueValue.Text = $"{robotStat.TimeTotalBlue} ms";
