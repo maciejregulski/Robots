@@ -12,7 +12,7 @@ namespace Robots.Controller
     /// <summary>
     /// Robot manager.
     /// </summary>
-    public class RobotManager
+    public class RobotManager : IDisposable
     {
         private readonly int coreNumber = 0;
         
@@ -24,7 +24,13 @@ namespace Robots.Controller
 
         private readonly List<IElement> records = new List<IElement>();
 
-        private Stopwatch stopWatch = new Stopwatch();
+        private Stopwatch stopWatch;
+
+        private bool disposedValue;
+
+        private event EventHandler<IElement> EnqueueIdleElement;
+
+        private event EventHandler StopProcessing;
 
         public RobotManager(int redRobots, int greenRobots, int blueRobots, int numberOfElements)
         {
@@ -36,6 +42,8 @@ namespace Robots.Controller
             this.NumberOfBlueRobots = blueRobots;
             this.coreNumber = redRobots + greenRobots + blueRobots;
 
+            this.EnqueueIdleElement += this.RobotManager_EnqueueIdleElement;
+            this.StopProcessing += this.RobotManager_StopProcessing;
             // Distribute robots equaly
             int max = Math.Max(redRobots, Math.Max(greenRobots, blueRobots));
             for (int i = 1; i <= max; i++)
@@ -48,7 +56,7 @@ namespace Robots.Controller
                 {
                     this.robots.Enqueue(new RobotGreen(i, 1) { Logger = this.Logger });
                 }
-                if (i<= blueRobots)
+                if (i <= blueRobots)
                 {
                     this.robots.Enqueue(new RobotBlue(i, 1) { Logger = this.Logger });
                 }
@@ -150,11 +158,17 @@ namespace Robots.Controller
             this.warehouse.Enqueue(element);
             if (this.warehouse.Count == this.NumberOfElements)
             {
-                this.Stop();
+                var handler = this.StopProcessing;
+                handler?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private void ClearQueue()
+        private void RobotManager_StopProcessing(object sender, EventArgs e)
+        {
+            this.Stop();
+        }
+
+        private void ClearBlockingCollection()
         {
             while (elements.TryTake(out _));
         }
@@ -169,7 +183,7 @@ namespace Robots.Controller
 
             for (int i = 0; i < this.coreNumber; i++)
             {
-                tasks.Add(Task.Factory.StartNew(() => RunRobotSheduler()).ContinueWith(t => ReportStatus()));
+                tasks.Add(Task.Factory.StartNew(() => RunRobotSheduler(), TaskCreationOptions.LongRunning).ContinueWith(t => ReportStatus()));
             }
 
             //Task.WaitAll(tasks.ToArray());
@@ -232,15 +246,19 @@ namespace Robots.Controller
 
         private void ElementIdle(IElement element)
         {
-            this.AddElement(element);
+            var handler = this.EnqueueIdleElement;
+            handler?.Invoke(this, element);
             Logger.TextColor = ConsoleColor.DarkMagenta;
             Logger.Info($"Idle, returning Element({(element as Element)?.Id}) to the pool.");
         }
 
+        private void RobotManager_EnqueueIdleElement(object sender, IElement element)
+        {
+            this.AddElement(element);
+        }
+
         public void Stop()
         {
-            this.stopWatch.Stop();
-
             this.elements.CompleteAdding();
             
             foreach(var robot in robots)
@@ -248,7 +266,7 @@ namespace Robots.Controller
                 robot.Abort = true;
             }
 
-            ClearQueue();
+            this.stopWatch.Stop();
         }
 
         public void ReportStatus()
@@ -289,5 +307,43 @@ namespace Robots.Controller
             var robotStatistics = new RobotStatistics(busy[0], busy[1], busy[2], totalTime[0], totalTime[1], totalTime[2]);
             return new Statistics(elementStatistics, robotStatistics);
         }
+
+        #region Dispose
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                    this.Stop();
+                    this.warehouse.Clear<IElement>();
+                    this.robots.Clear<IRobot>();
+                    ClearBlockingCollection();
+
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~RobotManager()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }
