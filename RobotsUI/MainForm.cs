@@ -49,7 +49,7 @@ namespace RobotsUI
         {
             if (this.robotService != null)
             {
-                this.robotService.Stop();
+                this.robotService.Dispose();
             }
 
             CreateRobotManager();
