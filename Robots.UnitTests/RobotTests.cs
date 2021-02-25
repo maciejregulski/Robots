@@ -84,7 +84,7 @@ namespace Robots.UnitTests
         }
 
         /// <summary>
-        /// 
+        /// Verify when job abort is called no painting is done.
         /// </summary>
         [TestMethod]
         [Owner("Maciej Regulski")]
