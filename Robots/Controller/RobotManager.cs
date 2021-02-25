@@ -73,6 +73,9 @@ namespace Robots.Controller
 
         public int NumberOfBlueRobots { get; private set; }
 
+        /// <summary>
+        /// Sets job duration interval for the red robots.
+        /// </summary>
         public int IntervalRed
         {
             set
@@ -92,6 +95,9 @@ namespace Robots.Controller
             }
         }
 
+        /// <summary>
+        /// Sets job duration interval for the green robots.
+        /// </summary>
         public int IntervalGreen
         {
             set
@@ -111,6 +117,9 @@ namespace Robots.Controller
             }
         }
 
+        /// <summary>
+        /// Sets job duration interval for the blue robots.
+        /// </summary>
         public int IntervalBlue
         {
             set
@@ -130,10 +139,19 @@ namespace Robots.Controller
             }
         }
 
+        /// <summary>
+        /// Current process duration.
+        /// </summary>
         public int ElapsedMilliseconds => (int) (stopWatch?.ElapsedMilliseconds ?? 0);
 
+        /// <summary>
+        /// Get the number of finished elements.
+        /// </summary>
         private int WarehouseCount => warehouse.Count;
 
+        /// <summary>
+        /// Feed the grid.
+        /// </summary>
         public List<IElement> Records => this.records;
 
         private void CreateElements(int number)
@@ -146,11 +164,19 @@ namespace Robots.Controller
             }
         }
 
+        /// <summary>
+        /// Add element to processing queue.
+        /// </summary>
+        /// <param name="element"></param>
         public void AddElement(IElement element)
         {
             elements.Add(element);
         }
 
+        /// <summary>
+        /// Add finished element to warehouse storage.
+        /// </summary>
+        /// <param name="element"></param>
         public void AddElementToWarehouse(IElement element)
         {
             this.warehouse.Enqueue(element);
@@ -160,11 +186,17 @@ namespace Robots.Controller
             }
         }
 
+        /// <summary>
+        /// Clear any remaining elements from the queue.
+        /// </summary>
         private void ClearBlockingCollection()
         {
             while (elements.TryTake(out _));
         }
 
+        /// <summary>
+        /// Start processing elements by robots.
+        /// </summary>
         public void Start()
         {
             this.stopWatch = Stopwatch.StartNew();
@@ -181,6 +213,9 @@ namespace Robots.Controller
             //Task.WaitAll(tasks.ToArray());
         }
 
+        /// <summary>
+        /// Query the elements queue to process unfinished elements.
+        /// </summary>
         private void RunRobotSheduler()
         {
             try
@@ -200,6 +235,10 @@ namespace Robots.Controller
             }
         }
 
+        /// <summary>
+        /// Run robots jobs.
+        /// </summary>
+        /// <param name="element"></param>
         private void ProcessElement(IElement element)
         {           
             foreach (var robot in robots)
@@ -229,6 +268,10 @@ namespace Robots.Controller
             }
         }
 
+        /// <summary>
+        /// Add fihished element to the warehouse storage.
+        /// </summary>
+        /// <param name="element"></param>
         private void ElementCompleted(IElement element)
         {
             this.AddElementToWarehouse(element);
@@ -236,6 +279,10 @@ namespace Robots.Controller
             Logger.Info($"Completed, transfering Element({(element as Element)?.Id}) to the warehouse.");
         }
 
+        /// <summary>
+        /// Add element again to the processing queue.
+        /// </summary>
+        /// <param name="element"></param>
         private void ElementIdle(IElement element)
         {
             var handler = this.EnqueueIdleElement;
@@ -249,6 +296,9 @@ namespace Robots.Controller
             this.AddElement(element);
         }
 
+        /// <summary>
+        /// Stop processing.
+        /// </summary>
         public void Stop()
         {
             this.elements.CompleteAdding();
@@ -268,6 +318,10 @@ namespace Robots.Controller
             Logger.Info($"Total elements in warehouse: {warehouse.Count}");
         }
 
+        /// <summary>
+        /// Get statistics.
+        /// </summary>
+        /// <returns>View object representing the required statistics.</returns>
         public Statistics Statistics()
         {
             int[] processed = new int[3];
