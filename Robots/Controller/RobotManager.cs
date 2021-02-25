@@ -2,7 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using Robots.Log;
 using Robots.Model;
 using Robots.View;
@@ -22,7 +24,13 @@ namespace Robots.Controller
 
         private readonly ConcurrentQueue<IElement> warehouse = new ConcurrentQueue<IElement>();
 
+        private readonly List<Task> tasks = new List<Task>();
+
         private readonly List<IElement> records = new List<IElement>();
+
+        private CountdownEvent taskSignal;
+
+        private System.Timers.Timer timer;
 
         private Stopwatch stopWatch;
 
@@ -180,10 +188,20 @@ namespace Robots.Controller
         public void AddElementToWarehouse(IElement element)
         {
             this.warehouse.Enqueue(element);
+        }
+
+        /// <summary>
+        /// Stop only if all elements are painted and stored in the warehouse.
+        /// </summary>
+        /// <returns></returns>
+        private bool TryInternalStop()
+        {
             if (this.warehouse.Count == this.NumberOfElements)
             {
                 this.Stop();
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -201,16 +219,24 @@ namespace Robots.Controller
         {
             this.stopWatch = Stopwatch.StartNew();
 
-            List<Task> tasks = new List<Task>();
-
             //Task.Run(() => this.CreateElements(this.numberOfElements));
+
+            this.timer = new System.Timers.Timer(100);
+            this.timer.Elapsed += Timer_Elapsed;
+            this.timer.AutoReset = true;
+            this.timer.Enabled = true;
+
+            this.taskSignal = new CountdownEvent(this.coreNumber);
 
             for (int i = 0; i < this.coreNumber; i++)
             {
-                tasks.Add(Task.Factory.StartNew(() => RunRobotSheduler(), TaskCreationOptions.LongRunning).ContinueWith(t => ReportStatus()));
+                tasks.Add(Task.Factory.StartNew(RunRobotSheduler, TaskCreationOptions.LongRunning)/*.ContinueWith(t => ReportStatus())*/);
             }
+        }
 
-            //Task.WaitAll(tasks.ToArray());
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.TryInternalStop();
         }
 
         /// <summary>
@@ -233,6 +259,10 @@ namespace Robots.Controller
             {
                 Logger.Error($"Robot error => {ex.Message}");
             }
+            finally
+            {
+                this.taskSignal.Signal();
+            }
         }
 
         /// <summary>
@@ -245,9 +275,9 @@ namespace Robots.Controller
             {
                 if (!robot.Busy)
                 {
-                    var stopWatch = Stopwatch.StartNew();
+                    var duration = Stopwatch.StartNew();
                     robot.Paint(element);
-                    robot.AddExecutionTime((int)stopWatch.ElapsedMilliseconds);
+                    robot.AddExecutionTime((int)duration.ElapsedMilliseconds);
                 }
 
                 element.FinishUp();
@@ -301,6 +331,8 @@ namespace Robots.Controller
         /// </summary>
         public void Stop()
         {
+            this.timer.Enabled =  false;
+
             this.elements.CompleteAdding();
             
             foreach(var robot in robots)
@@ -364,10 +396,13 @@ namespace Robots.Controller
                 {
                     // TODO: dispose managed state (managed objects)
                     this.Stop();
-                    this.warehouse.Clear<IElement>();
-                    this.robots.Clear<IRobot>();
+                    this.warehouse.Clear();
+                    this.robots.Clear();
+                    this.tasks.Clear();
                     ClearBlockingCollection();
-
+                    this.timer?.Dispose();
+                    // Check if all the tasks are fihished
+                    this.taskSignal.Wait();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
